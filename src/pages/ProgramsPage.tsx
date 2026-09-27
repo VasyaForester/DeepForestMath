@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { SiteStatsLink } from "../components/SiteStats";
 import { PROGRAM } from "../data/curriculum";
 import { useLessons } from "../data/lessons";
 import { currentGpa, isSchoolComplete } from "../lib/progress";
@@ -44,6 +45,7 @@ export function ProgramsPage() {
           <p className="muted">Готовится как отдельный факультет Deep Forest Academy.</p>
         </div>
       </div>
+      <SiteStatsLink />
     </div>
   );
 }

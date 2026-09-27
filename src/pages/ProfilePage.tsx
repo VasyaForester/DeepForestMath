@@ -6,7 +6,7 @@ import { formatGpa, letterFromGrade } from "../lib/grading";
 import { useStore } from "../state";
 
 export function ProfilePage() {
-  const { state, setName, resetProgress } = useStore();
+  const { state, setName, resetProgress, logout } = useStore();
   const lessons = useLessons();
   const nav = useNavigate();
   const [name, setLocal] = useState(state.name);
@@ -15,6 +15,9 @@ export function ProfilePage() {
   return (
     <section className="card">
       <h1>Профиль слушателя</h1>
+      <p>
+        Логин: <strong>{state.login}</strong>
+      </p>
       <label className="field">
         Имя (для диплома)
         <input value={name} onChange={(e) => setLocal(e.target.value)} />
@@ -35,18 +38,30 @@ export function ProfilePage() {
         лучшая попытка. Основной диплом — после школы и базового курса; диплом лауреата — если
         сданы все курсы.
       </p>
-      <button
-        className="btn secondary"
-        type="button"
-        onClick={() => {
-          if (confirm("Сбросить все оценки? Имя сохранится.")) {
-            resetProgress();
-            nav("/program/mathematics");
-          }
-        }}
-      >
-        Сбросить прогресс
-      </button>
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+        <button
+          className="btn secondary"
+          type="button"
+          onClick={() => {
+            if (confirm("Сбросить все оценки? Логин и имя сохранятся.")) {
+              resetProgress();
+              nav("/program/mathematics");
+            }
+          }}
+        >
+          Сбросить прогресс
+        </button>
+        <button
+          className="btn secondary"
+          type="button"
+          onClick={() => {
+            logout();
+            nav("/");
+          }}
+        >
+          Выйти
+        </button>
+      </div>
     </section>
   );
 }

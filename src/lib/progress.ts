@@ -54,6 +54,7 @@ export function isLessonUnlocked(
   const siblings = lessonsOf(all, lesson.courseId);
   const idx = siblings.findIndex((l) => l.id === lesson.id);
   if (idx <= 0) return true;
+  if (records[lesson.id]) return true;
   return Boolean(records[siblings[idx - 1].id]);
 }
 

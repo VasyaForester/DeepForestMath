@@ -3,6 +3,6 @@ import { useStore } from "../state";
 
 export function RequireName() {
   const { state } = useStore();
-  if (!state.name) return <Navigate to="/" replace />;
+  if (!state.login) return <Navigate to="/" replace />;
   return <Outlet />;
 }

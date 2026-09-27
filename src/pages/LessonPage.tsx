@@ -6,6 +6,7 @@ import { useLessons } from "../data/lessons";
 import { answersMatch } from "../lib/answers";
 import { letterFromGrade, scoreToGrade } from "../lib/grading";
 import { isLessonUnlocked, nextLesson } from "../lib/progress";
+import { LESSON_BACKGROUNDS } from "../data/lessonBackgrounds";
 import { useStore } from "../state";
 import type { Problem } from "../types";
 
@@ -75,8 +76,18 @@ function LessonView() {
     });
   }
 
+  const background = LESSON_BACKGROUNDS[lesson.id];
+
   return (
-    <article className="lesson-article">
+    <>
+      {background && (
+        <div
+          className="lesson-photo-bg"
+          style={{ backgroundImage: `url(${background})` }}
+          aria-hidden
+        />
+      )}
+      <article className="lesson-article">
       <p className="muted">
         <Link to={`/course/${lesson.courseId}`}>К курсу</Link>
       </p>
@@ -189,7 +200,7 @@ function LessonView() {
             </div>
           )}
         </div>
-        <Scratchpad lessonId={lesson.id} />
+        <Scratchpad lessonId={lesson.id} owner={state.login} />
       </div>
 
       <section className="sources">
@@ -204,6 +215,7 @@ function LessonView() {
         </ul>
       </section>
     </article>
+    </>
   );
 }
 

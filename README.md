@@ -1,5 +1,9 @@
 # Deep Forest Academy
 
+<p align="center">
+  <img src="public/crest.png" alt="Герб Deep Forest Academy" width="240">
+</p>
+
 Deep Forest Academy: углубленное изучение математики.
 
 ## Запуск

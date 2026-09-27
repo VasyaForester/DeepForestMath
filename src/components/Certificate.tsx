@@ -1,5 +1,4 @@
 import { Crest } from "./Crest";
-import { RectorSignature } from "./Signature";
 import { formatGpa } from "../lib/grading";
 
 export type DiplomaTier = "bachelor" | "laureate";
@@ -41,11 +40,6 @@ export function Certificate({
             <div className="muted">Дата</div>
             <strong>{date}</strong>
           </div>
-          <div className="sign-block">
-            <RectorSignature />
-            <div>Ректор</div>
-            <strong>Vasya Forester</strong>
-          </div>
         </div>
       </article>
     );
@@ -63,17 +57,12 @@ export function Certificate({
         аналитическая геометрия и дискретная математика. Ваш GPA — {formatGpa(gpa)}/4.0. Углубленный
         курс (анализ II–IV, топология и далее) остаётся открытой тропой.
       </p>
-      <div className="sign-row">
-        <div className="sign-block">
-          <div className="muted">Дата</div>
-          <strong>{date}</strong>
+        <div className="sign-row">
+          <div className="sign-block">
+            <div className="muted">Дата</div>
+            <strong>{date}</strong>
+          </div>
         </div>
-        <div className="sign-block">
-          <RectorSignature />
-          <div>Ректор</div>
-          <strong>Vasya Forester</strong>
-        </div>
-      </div>
     </article>
   );
 }

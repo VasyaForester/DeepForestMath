@@ -69,6 +69,7 @@ export interface LessonRecord {
 }
 
 export interface AppState {
+  login: string;
   name: string;
   records: Record<string, LessonRecord>;
 }

@@ -1,11 +1,12 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Crest } from "./Crest";
 import { useStore } from "../state";
 import { currentGpa } from "../lib/progress";
 import { formatGpa } from "../lib/grading";
 
 export function Layout() {
-  const { state } = useStore();
+  const { state, logout } = useStore();
+  const nav = useNavigate();
   const gpa = currentGpa(state.records);
 
   return (
@@ -26,13 +27,23 @@ export function Layout() {
           <NavLink to="/diploma">Диплом</NavLink>
           <NavLink to="/profile">{state.name || "Профиль"}</NavLink>
           {gpa !== null && <span className="pill ok">GPA {formatGpa(gpa)}</span>}
+          <button
+            type="button"
+            className="linkish"
+            onClick={() => {
+              logout();
+              nav("/");
+            }}
+          >
+            Выйти
+          </button>
         </nav>
       </header>
       <main className="main">
         <Outlet />
       </main>
       <footer className="footer">
-        Deep Forest Academy · ректор Vasya Forester
+        Deep Forest Academy
       </footer>
     </div>
   );

@@ -36,13 +36,15 @@ const KEY_ROWS: { title: string; keys: string[] }[] = [
   { title: "Скобки", keys: ["(", ")", "[", "]", "{", "}", "|"] },
 ];
 
-function storageKey(lessonId: string) {
-  return `dfa-draft-v1:${lessonId}`;
+function storageKey(owner: string, lessonId: string) {
+  return `dfa-draft-v1:${owner}:${lessonId}`;
 }
 
-function loadDraft(lessonId: string): Draft {
+function loadDraft(owner: string, lessonId: string): Draft {
   try {
-    const raw = localStorage.getItem(storageKey(lessonId));
+    const raw =
+      localStorage.getItem(storageKey(owner, lessonId)) ??
+      localStorage.getItem(`dfa-draft-v1:${lessonId}`);
     if (!raw) return { notes: "", strokes: [] };
     const parsed = JSON.parse(raw) as Draft;
     return {
@@ -54,8 +56,8 @@ function loadDraft(lessonId: string): Draft {
   }
 }
 
-function saveDraft(lessonId: string, draft: Draft) {
-  localStorage.setItem(storageKey(lessonId), JSON.stringify(draft));
+function saveDraft(owner: string, lessonId: string, draft: Draft) {
+  localStorage.setItem(storageKey(owner, lessonId), JSON.stringify(draft));
 }
 
 function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke) {
@@ -87,7 +89,7 @@ function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke) {
   ctx.restore();
 }
 
-export function Scratchpad({ lessonId }: { lessonId: string }) {
+export function Scratchpad({ lessonId, owner }: { lessonId: string; owner: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
   const drawing = useRef(false);
@@ -105,21 +107,21 @@ export function Scratchpad({ lessonId }: { lessonId: string }) {
   const skipSave = useRef(true);
 
   useEffect(() => {
-    const draft = loadDraft(lessonId);
+    const draft = loadDraft(owner, lessonId);
     skipSave.current = true;
     setNotes(draft.notes);
     setStrokes(draft.strokes);
     current.current = null;
     drawing.current = false;
-  }, [lessonId]);
+  }, [owner, lessonId]);
 
   useEffect(() => {
     if (skipSave.current) {
       skipSave.current = false;
       return;
     }
-    saveDraft(lessonId, { notes, strokes });
-  }, [lessonId, notes, strokes]);
+    saveDraft(owner, lessonId, { notes, strokes });
+  }, [owner, lessonId, notes, strokes]);
 
   const paint = useCallback((extra?: Stroke) => {
     const canvas = canvasRef.current;

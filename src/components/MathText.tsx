@@ -1,6 +1,11 @@
 import { useMemo } from "react";
 import katex from "katex";
 
+const KATEX_MACROS = {
+  "\\neq": "\\mathrel{\\htmlClass{dfa-neq}{\\char\"2260}}",
+  "\\ne": "\\neq",
+};
+
 function renderKatex(tex: string, display: boolean): string {
   try {
     return katex.renderToString(tex, {
@@ -8,6 +13,8 @@ function renderKatex(tex: string, display: boolean): string {
       throwOnError: false,
       strict: false,
       output: "html",
+      trust: (ctx) => ctx.command === "\\htmlClass",
+      macros: KATEX_MACROS,
     });
   } catch {
     return tex;

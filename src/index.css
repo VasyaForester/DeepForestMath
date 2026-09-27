@@ -74,6 +74,24 @@ select {
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  position: relative;
+  z-index: 1;
+}
+
+.lesson-photo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.28;
+}
+
+.lesson-article {
+  position: relative;
+  z-index: 1;
 }
 
 .topbar {
@@ -152,6 +170,28 @@ select {
   color: var(--pine);
 }
 
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0 8px;
+}
+
+.auth-tab {
+  border: 1px solid var(--stone-light);
+  background: var(--white);
+  color: var(--stone);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-tab.on {
+  background: var(--pine-mid);
+  border-color: var(--pine-mid);
+  color: #fff;
+}
+
 .main {
   width: min(1120px, calc(100% - 40px));
   margin: 28px auto 48px;
@@ -163,6 +203,57 @@ select {
   padding: 18px 28px 28px;
   text-align: center;
   font-size: 13px;
+}
+
+.stats-corner {
+  position: fixed;
+  right: 20px;
+  bottom: 16px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.stats-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--stone-soft);
+  cursor: pointer;
+}
+
+.stats-link:hover,
+.stats-link:focus-visible {
+  color: var(--pine-mid);
+  text-decoration: underline;
+}
+
+.stats-pop {
+  min-width: 180px;
+  padding: 10px 12px;
+  border: 1px solid var(--stone-light);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  color: var(--stone);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.stats-pop p {
+  margin: 0;
+}
+
+.stats-pop p + p {
+  margin-top: 4px;
 }
 
 .card {
@@ -356,6 +447,12 @@ select {
 
 .math-text .katex {
   font-size: 1.05em;
+}
+
+.katex .dfa-neq,
+.katex .dfa-neq * {
+  font-family: "Times New Roman", "Segoe UI", "Cambria Math", serif !important;
+  font-style: normal !important;
 }
 
 .math-text .katex-mathml {

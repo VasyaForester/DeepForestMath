@@ -9,7 +9,8 @@ export function normalizeAnswer(raw: string): string {
     .replaceAll("—", "-")
     .replace(/\s+/g, "")
     .replaceAll("\\", "")
-    .replaceAll("$", "");
+    .replaceAll("$", "")
+    .replace(/(?:%|％|процентов|процента|процент)+$/g, "");
 }
 
 export function answersMatch(user: string, accepted: string[]): boolean {

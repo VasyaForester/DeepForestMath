@@ -40,6 +40,7 @@ export function isCourseUnlocked(
     return prev.every((c) => isCourseComplete(c.id, all, records));
   }
   if (!isSchoolComplete(all, records)) return false;
+  if (lessonsOf(all, course.id).some((l) => records[l.id])) return true;
   return course.requires.every((id) => isCourseComplete(id, all, records));
 }
 
@@ -123,7 +124,8 @@ export function courseStandsOn(course: Course): Course[] {
 export function courseLeadsTo(course: Course): Course[] {
   if (course.phase === "school") {
     const next = schoolCourses().find((c) => c.order === course.order + 1);
-    return next ? [next] : [];
+    if (next) return [next];
+    return courses.filter((c) => c.requires.includes(course.id));
   }
   return courses.filter((c) => c.requires.includes(course.id));
 }

@@ -24,6 +24,10 @@ export function CoursePage() {
             ? "Сначала сдайте предыдущие школьные курсы."
             : "Сначала сдайте школьную программу и указанные предварительные курсы."}
         </p>
+        <p>
+          <strong>На выходе. </strong>
+          {course.outcome}
+        </p>
         <CourseContext course={course} />
         <Link className="btn secondary" to="/program/mathematics">
           К программе
@@ -39,6 +43,10 @@ export function CoursePage() {
       </p>
       <h1>{course.title}</h1>
       <p className="muted">{course.description}</p>
+      <p>
+        <strong>На выходе. </strong>
+        {course.outcome}
+      </p>
       <CourseContext course={course} />
       <div className="lesson-list">
         {list.map((l, i) => {

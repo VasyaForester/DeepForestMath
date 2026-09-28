@@ -5,6 +5,7 @@ const SESSION_KEY = "dfa-session-v1";
 const LEGACY_KEY = "dfa-math-v1";
 const REMAP_FLAG = "dfa-id-remap-school-progress-v1";
 const ORDER_REMAP_FLAG = "dfa-id-remap-lesson-order-v1";
+const PROOF_REMAP_FLAG = "dfa-id-remap-proof-lessons-v1";
 
 /** Старые номера занятий → новые, одним шагом, без цепочки. */
 const PROGRESS_ID_REMAP: Record<string, string> = {
@@ -64,6 +65,18 @@ const ORDER_ID_REMAP: Record<string, string> = {
     0: 1, 1: 2, 2: 4, 3: 7, 4: 6, 6: 8, 7: 3, 8: 0,
   }),
 };
+
+/** Вставки «Контрапозиция» и «Принцип наименьшего числа» в курс доказательств. */
+const PROOF_ID_REMAP: Record<string, string> = idMap("school-proof", {
+  4: 5,
+  5: 6,
+  6: 7,
+  7: 9,
+  8: 10,
+  9: 11,
+  10: 12,
+  11: 13,
+});
 
 function remapDraftKeys(map: Record<string, string>): void {
   const keys: string[] = [];
@@ -162,9 +175,39 @@ function migrateLessonOrder(): void {
   localStorage.setItem(ORDER_REMAP_FLAG, "1");
 }
 
+function migrateProofLessons(): void {
+  if (localStorage.getItem(PROOF_REMAP_FLAG)) return;
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    if (raw) {
+      const users = JSON.parse(raw) as Record<string, StoredUser>;
+      if (users && typeof users === "object") {
+        for (const user of Object.values(users)) {
+          if (user?.records) user.records = remapLessonIds(user.records, PROOF_ID_REMAP);
+        }
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+    }
+    const legacyRaw = localStorage.getItem(LEGACY_KEY);
+    if (legacyRaw) {
+      const legacy = JSON.parse(legacyRaw) as { name?: string; records?: Record<string, LessonRecord> };
+      if (legacy?.records) {
+        legacy.records = remapLessonIds(legacy.records, PROOF_ID_REMAP);
+        localStorage.setItem(LEGACY_KEY, JSON.stringify(legacy));
+      }
+    }
+    remapDraftKeys(PROOF_ID_REMAP);
+    remapStatsLessons(PROOF_ID_REMAP);
+  } catch {
+    return;
+  }
+  localStorage.setItem(PROOF_REMAP_FLAG, "1");
+}
+
 function loadUsers(): Record<string, StoredUser> {
   migrateProgressLessonIds();
   migrateLessonOrder();
+  migrateProofLessons();
   try {
     const raw = localStorage.getItem(USERS_KEY);
     if (!raw) return {};

@@ -57,7 +57,9 @@ export interface Course {
   phase: Phase;
   order: number;
   description: string;
-  /** Courses that must be fully completed first (in addition to school, for university). */
+  /** Что студент должен уметь к концу курса. */
+  outcome: string;
+  /** Курсы, которые нужно сдать целиком раньше (для вуза — сверх всей школы). */
   requires: string[];
 }
 

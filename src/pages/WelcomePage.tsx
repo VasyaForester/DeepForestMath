@@ -46,7 +46,7 @@ export function WelcomePage() {
         <Crest />
         <div>
           <h1>Deep Forest Academy</h1>
-          <p className="muted">углубленное изучение математики</p>
+          <p className="muted">углублённое изучение математики</p>
           <div className="auth-tabs" role="tablist">
             <button
               type="button"

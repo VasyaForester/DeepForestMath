@@ -53,7 +53,7 @@ function LessonView() {
     return <Navigate to={`/course/${lesson.courseId}`} replace />;
   }
 
-  const nxt = nextLesson(lesson, lessons);
+  const nxt = nextLesson(lesson, lessons, state.records);
 
   function setVal(id: string, v: string) {
     setValues((prev) => ({ ...prev, [id]: v }));
@@ -291,7 +291,7 @@ function ProblemCard({
           <input
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="число или короткое выражение"
+            placeholder="как в условии: несократимая дробь или число"
             style={
               ok
                 ? { borderColor: "var(--moss)", background: "#e8f5ee" }
@@ -300,6 +300,9 @@ function ProblemCard({
                   : undefined
             }
           />
+          <span className="muted">
+            Пишите ответ в виде из условия. Равносильная запись, например сократимая дробь, может не засчитаться.
+          </span>
         </label>
       )}
       {!show && <HintStack hints={problem.hints ?? []} />}

@@ -30,7 +30,7 @@ export function ProfilePage() {
       </p>
       {gpa !== null && (
         <p>
-          Текущий GPA: {formatGpa(gpa)}/4.0 ({letterFromGrade(gpa)})
+          Текущий средний балл: {formatGpa(gpa)}/4.0 ({letterFromGrade(gpa)})
         </p>
       )}
       <p className="muted">

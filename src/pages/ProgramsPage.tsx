@@ -26,7 +26,7 @@ export function ProgramsPage() {
           <p className="muted">{PROGRAM.tagline}</p>
           <p>
             Пройдено занятий: {done} / {lessons.length}
-            {gpa !== null ? ` · текущий GPA ${formatGpa(gpa)}` : ""}
+            {gpa !== null ? ` · текущий средний балл (GPA) ${formatGpa(gpa)}` : ""}
           </p>
           <p className="muted">
             {schoolDone

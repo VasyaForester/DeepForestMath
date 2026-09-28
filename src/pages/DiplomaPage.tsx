@@ -36,7 +36,7 @@ export function DiplomaPage() {
         <p className="muted">
           Основной диплом выдаётся за школьную программу и базовый курс: анализ I, линейную
           алгебру, алгебру, аналитическую геометрию и дискретную математику. Анализ II–IV, топология,
-          теория чисел и остальные предметы углубленного курса для диплома не обязательны — за полный
+          теория чисел и остальные предметы углублённого курса для диплома не обязательны — за полный
           курс Академия выдаёт диплом лауреата. Сдано {coreDone} из {coreList.length} занятий базового
           курса.
         </p>
@@ -70,7 +70,7 @@ export function DiplomaPage() {
             honors={latinHonors(full)}
           />
           <p className="muted no-print" style={{ textAlign: "center", margin: "8px 0 0" }}>
-            Ниже — диплом базового курса (GPA {formatGpa(core)}/4.0).
+            Ниже — диплом базового курса (средний балл {formatGpa(core)}/4.0).
           </p>
           <Certificate name={state.name} gpa={core} date={date} tier="bachelor" />
         </div>

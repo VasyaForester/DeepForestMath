@@ -133,17 +133,25 @@ export function courseLeadsTo(course: Course): Course[] {
 export function nextLesson(
   current: Lesson,
   all: Lesson[],
+  records: Record<string, LessonRecord>,
 ): Lesson | null {
   const siblings = lessonsOf(all, current.courseId);
   const idx = siblings.findIndex((l) => l.id === current.id);
   if (idx >= 0 && idx < siblings.length - 1) return siblings[idx + 1];
-  const course = courseById(current.courseId);
-  if (!course) return null;
+
+  const done = records[current.id]
+    ? records
+    : {
+        ...records,
+        [current.id]: { grade: 0, correct: 0, total: 1, submittedAt: "" },
+      };
   const ordered = [...courses].sort((a, b) => a.order - b.order);
-  const cidx = ordered.findIndex((c) => c.id === course.id);
-  for (let i = cidx + 1; i < ordered.length; i++) {
-    const list = lessonsOf(all, ordered[i].id);
-    if (list[0]) return list[0];
+  for (const course of ordered) {
+    if (course.id === current.courseId) continue;
+    if (!isCourseUnlocked(course, all, done)) continue;
+    const list = lessonsOf(all, course.id);
+    const pending = list.find((l) => !done[l.id] && isLessonUnlocked(l, all, done));
+    if (pending) return pending;
   }
   return null;
 }

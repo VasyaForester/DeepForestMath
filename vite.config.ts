@@ -75,8 +75,24 @@ function statsDevPlugin(): Plugin {
   };
 }
 
+function pythonPreviewFallback(): Plugin {
+  return {
+    name: "dfa-python-preview",
+    configurePreviewServer(server) {
+      server.middlewares.use((req, _res, next) => {
+        const url = req.url?.split("?")[0] ?? "";
+        if (url === "/python" || url.startsWith("/python/")) {
+          const leaf = url.split("/").pop() ?? "";
+          if (!leaf.includes(".")) req.url = "/python/index.html";
+        }
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), statsDevPlugin()],
+  plugins: [react(), statsDevPlugin(), pythonPreviewFallback()],
   server: {
     port: 5173,
     strictPort: true,

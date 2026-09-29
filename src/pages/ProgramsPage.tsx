@@ -6,6 +6,8 @@ import { currentGpa, isSchoolComplete } from "../lib/progress";
 import { formatGpa } from "../lib/grading";
 import { useStore } from "../state";
 
+const pythonHref = import.meta.env.DEV ? "http://localhost:5174/programs/python" : "/python/programs/python";
+
 export function ProgramsPage() {
   const { state } = useStore();
   const lessons = useLessons();
@@ -17,7 +19,7 @@ export function ProgramsPage() {
     <div>
       <h1>Учебные программы</h1>
       <p className="muted">
-        Академия будет расти: новые факультеты появятся рядом. Сейчас открыт курс математики.
+        Академия будет расти: новые факультеты появятся рядом. Сейчас открыты математика и Python (бета).
       </p>
       <div className="grid" style={{ marginTop: 20 }}>
         <Link to="/program/mathematics" className="card" style={{ color: "inherit" }}>
@@ -34,6 +36,12 @@ export function ProgramsPage() {
               : "Сначала закройте школьную программу, затем откроется высшая математика. Основной диплом — за школу и базовый курс."}
           </p>
         </Link>
+        <a href={pythonHref} className="card" style={{ color: "inherit" }}>
+          <span className="pill ok">Открыта</span>
+          <h2 style={{ margin: "10px 0 6px" }}>Python (бета)</h2>
+          <p className="muted">От первого print до практики в браузере. Сейчас открыт раздел «Старт и основы».</p>
+          <p className="muted">Тот же вход, что и у математики. Оценки Python (бета) хранятся отдельно и математику не меняют.</p>
+        </a>
         <div className="card" style={{ opacity: 0.7 }}>
           <span className="pill lock">Скоро</span>
           <h2 style={{ margin: "10px 0 6px" }}>Физика</h2>

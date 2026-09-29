@@ -10,6 +10,14 @@
 
 RewriteEngine On
 RewriteBase /
+
+RewriteRule ^python/index\.html$ - [L]
+RewriteRule ^python/?$ /python/index.html [L]
+RewriteCond %{REQUEST_URI} ^/python/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^python/ /python/index.html [L]
+
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

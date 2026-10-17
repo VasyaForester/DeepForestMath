@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MathText } from "../components/MathText";
+import { LessonFigures } from "../figures";
 import { Scratchpad } from "../components/Scratchpad";
 import { useLessons } from "../data/lessons";
 import { answersMatch } from "../lib/answers";
@@ -104,6 +105,8 @@ function LessonView() {
         <h3>Теория</h3>
         <MathText text={lesson.theory} />
       </section>
+
+      <LessonFigures lessonId={lesson.id} />
 
       {lesson.nonexample && (
         <section className="nonexample">

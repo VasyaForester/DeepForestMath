@@ -32,6 +32,13 @@ if (Test-Path $target) { Remove-Item $target -Recurse -Force }
 New-Item -ItemType Directory -Path $target | Out-Null
 Copy-Item (Join-Path $python "dist\*") $target -Recurse -Force
 
+$pyIndex = Get-Content -Raw (Join-Path $target "index.html")
+Get-ChildItem (Join-Path $target "assets") -File -ErrorAction SilentlyContinue | ForEach-Object {
+  if ($pyIndex -notlike ("*" + $_.Name + "*")) {
+    Remove-Item $_.FullName -Force
+  }
+}
+
 foreach ($skip in @("lesson-bg", "stats-store.json")) {
   $path = Join-Path $math "dist\$skip"
   if (Test-Path $path) { Remove-Item $path -Recurse -Force }

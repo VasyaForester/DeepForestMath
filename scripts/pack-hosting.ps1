@@ -43,6 +43,8 @@ foreach ($skip in @("lesson-bg", "stats-store.json")) {
   $path = Join-Path $math "dist\$skip"
   if (Test-Path $path) { Remove-Item $path -Recurse -Force }
 }
+Get-ChildItem (Join-Path $math "dist") -Recurse -Directory -Filter "__pycache__" -Force -ErrorAction SilentlyContinue |
+  Remove-Item -Recurse -Force
 
 if (Test-Path $zip) { Remove-Item $zip -Force }
 Add-Type -AssemblyName System.IO.Compression

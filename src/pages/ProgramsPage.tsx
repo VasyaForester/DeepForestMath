@@ -39,8 +39,9 @@ export function ProgramsPage() {
         <a href={pythonHref} className="card" style={{ color: "inherit" }}>
           <span className="pill ok">Открыта</span>
           <h2 style={{ margin: "10px 0 6px" }}>Python (бета)</h2>
-          <p className="muted">От первого print до практики в браузере. Сейчас открыт раздел «Старт и основы».</p>
-          <p className="muted">Тот же вход, что и у математики. Оценки Python (бета) хранятся отдельно и математику не меняют.</p>
+          <p className="muted">
+            От первой программы до алгоритмов, SQL, pandas, API, backend, Git и финального проекта. Практика идёт в браузере.
+          </p>
         </a>
         <div className="card" style={{ opacity: 0.7 }}>
           <span className="pill lock">Скоро</span>

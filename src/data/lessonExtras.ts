@@ -1499,7 +1499,17 @@ const EXTRAS = Object.fromEntries([
 ]) as Record<string, Extra>;
 
 export function applyLessonExtras(lesson: Lesson): Lesson {
-  const extraData = EXTRAS[lesson.id] ?? deriveExtra(lesson);
+  const explicitExtra = EXTRAS[lesson.id];
+  const generatedExtra = deriveExtra(lesson);
+  const extraData: Extra = {
+    ...generatedExtra,
+    ...explicitExtra,
+    purpose: explicitExtra?.purpose ?? lesson.purpose ?? generatedExtra.purpose,
+    theoryAddendum:
+      explicitExtra?.theoryAddendum ?? generatedExtra.theoryAddendum,
+    nonexample:
+      explicitExtra?.nonexample ?? lesson.nonexample ?? generatedExtra.nonexample,
+  };
   const problems = lesson.problems.map((p) => {
     const hints = extraData.hints?.[p.id];
     if (!hints?.length) return p;

@@ -999,7 +999,7 @@ const TOPIC_GUIDES: TopicGuide[] = [
 
 function deriveExtra(lesson: Lesson): Extra {
   const lessonText = lesson.courseId + " " + lesson.title;
-  const topic = TOPIC_GUIDES.find((guide) =>
+  const topic = [...TOPIC_GUIDES].reverse().find((guide) =>
     (!guide.courses || guide.courses.includes(lesson.courseId)) &&
     (!guide.match || new RegExp(guide.match, "i").test(lessonText))
   );
@@ -1010,11 +1010,9 @@ function deriveExtra(lesson: Lesson): Extra {
     nonexampleText: "Формула может быть верной только при дополнительных предпосылках. Перед применением уточните область определения, ограничения на параметры, требования к сходимости и другие условия, указанные в теореме."
   };
   const purpose = guide.purpose.replaceAll("{title}", lesson.title);
-  const addendum = guide.addendum + "\n\nДля занятия «" + lesson.title +
-    "» полезно отдельно сформулировать исходные данные, требуемый вывод и условия, при которых выбранный метод допустим. Затем решайте задачу по одному переходу за раз и поясняйте, почему переход сохраняет исходные условия.";
   return {
     purpose,
-    theoryAddendum: addendum,
+    theoryAddendum: guide.addendum,
     nonexample: { title: guide.nonexampleTitle, text: guide.nonexampleText }
   };
 }
